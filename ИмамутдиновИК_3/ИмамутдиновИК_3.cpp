@@ -1,46 +1,52 @@
-﻿
+﻿#include "header.h"
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
-using namespace std;
-
-struct tovar {
-	int yyyy, mm, dd;
-	string name;
-	int quant;
-};
 
 int main()
 {
-	setlocale(0, "");
+    setlocale(0, "");  
 
-	vector<tovar> tovars;
+    std::vector<tovar> tovars;
 
-	ifstream ist("in.txt");
-	if (!ist.is_open()) {
-		cout << "Файл не найден";
-		return 0;
-	}
+    readDataFromFile("in.txt", tovars);
 
-	tovar item;
-	while (!ist.eof()) {
-		ist >> item.yyyy;
-		ist.get();
-		ist >> item.mm;
-		ist.get();
-		ist >> item.dd;
-		ist.get();
-		ist >> item.name >> item.quant;
-		tovars.push_back(item);
-	}
-	ist.close();
-
-	for (const tovar& t : tovars) {
-		cout << "Дата: " << t.yyyy << "." << t.mm << "." << t.dd << endl;
-		cout << "Название: " << t.name << endl;
-		cout << "Количество: " << t.quant << endl;
-	}
-
-	return 0;
+    printTovars(tovars);
+    
+    return 0;
 }
+
+
+void readDataFromFile(const std::string& filename, std::vector<tovar>& tovars) {
+    std::ifstream ist(filename);
+    if (!ist.is_open()) {
+        std::cout << "Файл не найден";
+        return;
+    }
+
+    tovar item;
+    while (!ist.eof()) {
+        ist >> item.yyyy;
+        ist.get();
+        ist >> item.mm;
+        ist.get();
+        ist >> item.dd;
+        ist.get();
+        ist >> item.name >> item.quant;
+        tovars.push_back(item);
+    }
+    ist.close();
+}
+
+
+void printTovars(const std::vector<tovar>& tovars) {
+    for (const tovar& t : tovars) {
+        std::cout << "Дата: " << t.yyyy << "." << t.mm << "." << t.dd << std::endl;
+        std::cout << "Название: " << t.name << std::endl;
+        std::cout << "Количество: " << t.quant << std::endl;
+    }
+}
+
+
+
+
+

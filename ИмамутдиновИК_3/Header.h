@@ -5,13 +5,4 @@
 #include <vector>
 
 
-struct tovar {
-    int yyyy, mm, dd;   
-    std::string name;   
-    int quant;         
-};
-
-void readDataFromFile(const std::string& filename, std::vector<tovar>& tovars);
-void printTovars(const std::vector<tovar>& tovars);
-
 #endif  

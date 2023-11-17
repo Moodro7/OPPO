@@ -127,10 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ИмамутдиновИК_3.cpp" />
+    <ClCompile Include="data.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="tovar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+    <ClInclude Include="data.h" />
+    <ClInclude Include="tovar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

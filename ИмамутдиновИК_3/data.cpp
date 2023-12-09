@@ -1,7 +1,10 @@
 #include "data.h"
 #include "tovar.h"
+#include "Header.h"
+#include <vector>
 #include <iostream>
 #include <fstream>
+using namespace std;
 
 void readDataFromFile(const std::string& filename, std::vector<tovar>& tovars) {
     std::ifstream ist(filename);
@@ -12,14 +15,26 @@ void readDataFromFile(const std::string& filename, std::vector<tovar>& tovars) {
 
     tovar item;
     while (!ist.eof()) {
-        ist >> item.yyyy;
-        ist.get();
-        ist >> item.mm;
-        ist.get();
-        ist >> item.dd;
-        ist.get();
-        ist >> item.name >> item.quant;
         tovars.push_back(item);
     }
+
     ist.close();
+}
+
+void date::print(std::ostream& out, date data) const
+{
+    std::cout << "Дата: " << data.yyyy << "." << data.mm << "." << data.dd << std::endl;
+}
+
+static date read(std::istream& ist)
+{
+    date data;
+    ist >> data.yyyy;
+    ist.get();
+    ist >> data.mm;
+    ist.get();
+    ist >> data.dd;
+    ist.get();
+    ist.get();
+    return data;
 }

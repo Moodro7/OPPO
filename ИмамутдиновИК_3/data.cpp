@@ -1,40 +1,71 @@
-#include "data.h"
-#include "tovar.h"
-#include "Header.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
+
+#include "data.h"
+
 using namespace std;
 
-void readDataFromFile(const std::string& filename, std::vector<tovar>& tovars) {
-    std::ifstream ist(filename);
-    if (!ist.is_open()) {
-        std::cout << "Файл не найден";
-        return;
+date is_correct_date(date data)
+{
+    int max_day_month = 0;
+    if (data.mm == 2)
+        max_day_month = (data.yyyy % 400 == 0 || (data.yyyy % 100 != 0 && data.yyyy % 4 == 0)) ? 29 : 28;
+    else if (data.mm == 1 || (data.mm > 2 && data.mm <= 12))
+        for (int i : {1, 3, 5, 7, 8, 10, 12})
+            if (data.mm == i) {
+                max_day_month = 31;
+                break;
+            }
+            else max_day_month = 30;
+    else
+    {
+        throw std::runtime_error("Wrong day");
     }
-
-    tovar item;
-    while (!ist.eof()) {
-        tovars.push_back(item);
+    if (data.dd < 1 || data.dd > max_day_month)
+    {
+        throw std::runtime_error("Wrong day");
     }
-
-    ist.close();
+    return {};
 }
 
-void date::print(std::ostream& out, date data) const
-{
-    std::cout << "Дата: " << data.yyyy << "." << data.mm << "." << data.dd << std::endl;
+
+void date::set_date(std::istream& ist, date data) {
+    date::read(ist);
 }
 
-static date read(std::istream& ist)
+void date::print(std::ostream& out) const
 {
-    date data;
+    out << "Дата: " << yyyy << "." << mm << "." << dd << std::endl;
+}
+
+ date date::read(std::istream& ist)
+{
+    date data; // yyyy.mm.dd
+    char dots[2];
     ist >> data.yyyy;
-    ist.get();
+    //std::cout << data.yyyy;
+    dots[0] = ist.get();
     ist >> data.mm;
-    ist.get();
+    //std::cout << data.mm;
+    dots[1] = ist.get();
     ist >> data.dd;
-    ist.get();
-    ist.get();
+    //std::cout << data.dd;
+
+    if (ist.fail()) 
+        throw runtime_error("Invalid date");
+    
+    if (dots[0] != '.' || dots[1] != '.')
+        throw runtime_error("Invalid dot");
+
+    if (!data.is_valid(data.yyyy, data.mm, data.dd)) 
+       throw runtime_error("Invalid date");
+    
+
+    //is_correct_date(data);
+    //std::cout << data.dd;
+    //std::cout << data.mm;
+
     return data;
 }
+
